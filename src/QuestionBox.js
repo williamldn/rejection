@@ -12,17 +12,14 @@ export default class QuestionBox extends React.Component {
 			},
 			error: null,
 		}
+
+		this.handleValueChange = this.handleValueChange.bind(this);
+		this.handleQuestionStatus = this.handleQuestionStatus
+														.bind(this);
+		this.handleSave = this.handleSave.bind(this);
 	}
 
-	handleQuestionStatus = (target) => {
-		let questionStatus = this.state.questionStatus;
-		questionStatus = questionStatus === target ? null : target;
-		this.setState({
-			questionStatus,
-		});
-	}
-
-	handleValueChange = (event) => {
+	handleValueChange (event) {
 		const content = Object.assign({} ,this.state.content);
 		if (event.target.name === "question") {
 			content.question = event.target.value;
@@ -32,7 +29,15 @@ export default class QuestionBox extends React.Component {
 		this.setState({content});
 	}
 
-	handleSave = (event) => {
+	handleQuestionStatus (target) {
+		let questionStatus = this.state.questionStatus;
+		questionStatus = questionStatus === target ? null : target;
+		this.setState({
+			questionStatus,
+		});
+	}
+
+	handleSave (event) {
 		const content = Object.assign({} ,this.state.content);
 		let questionStatus = this.state.questionStatus;
 		if (content.question && content.askee) {
@@ -53,6 +58,7 @@ export default class QuestionBox extends React.Component {
 			content,
 			questionStatus,
 		})
+		this.props.onChangeNumEntries(localStorage.length - 1);
 	}
 
 	render() {
